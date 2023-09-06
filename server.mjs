@@ -1,6 +1,6 @@
 import express from 'express'
 const app = express()
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 import path from 'path';
 const __dirname = path.resolve();
 //app.use(express.json());
