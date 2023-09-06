@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "devCss": "npx tailwindcss -i input.css -o ./public/output.css --watch",
     "prodCss": "npx tailwindcss -i input.css -o ./public/output.css --minify",
+    "start": "node server.mjs",
     "dev": "nodemon server.mjs"
   },
   "keywords": [],
