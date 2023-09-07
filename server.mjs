@@ -15,13 +15,11 @@ import postRouter from './routes/post.mjs'
 app.use(express.json())
 
 
-app.use(express.static(path.join(__dirname, './reactcrudapp/build')))
-
 app.use('/api/v1', authRouter)
 app.use('/api/v1', postRouter)
 
 
-
+app.use(express.static(path.join(__dirname, './reactcrudapp/build')))
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`)
