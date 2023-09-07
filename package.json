@@ -4,19 +4,18 @@
   "description": "",
   "main": "server.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "devCss": "npx tailwindcss -i input.css -o ./public/output.css --watch",
-    "prodCss": "npx tailwindcss -i input.css -o ./public/output.css --minify",
     "start": "node server.mjs",
-    "dev": "nodemon server.mjs"
+    "dev": "nodemon server.mjs",
+    "devCss": "npx tailwindcss -i input.css -o ./public/output.css --watch",
+    "prodCss": "npx tailwindcss -i input.css -o ./public/output.css --minify"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "mongodb": "^5.7.0",
-    "nanoid": "^4.0.2"
+    "mongodb": "^5.7.0"
   },
   "devDependencies": {
     "tailwindcss": "^3.3.3"
