@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb';
-const url = "mongodb+srv://uktech0310:2124821aA@cluster0.htpwdc9.mongodb.net/?retryWrites=true&w=majority";
+const url = "mongodb+srv://uktech0310:2124821aA@cluster0.i3vmoao.mongodb.net/?retryWrites=true&w=majority";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 export const client = new MongoClient(url);
