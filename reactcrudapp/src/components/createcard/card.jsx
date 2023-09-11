@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 
-const Createpostcard = ({ createPost}) => {
+const Createpostcard = ({ createPost , createopenModal , setIsMessage}) => {
 
     const postHeadingRef = useRef(null);
     const postDetailsRef = useRef(null);
@@ -21,29 +21,44 @@ const Createpostcard = ({ createPost}) => {
         // console.log("cityName: ", cityNameRef.current.value);
 
 
-        // const [posts, setposts] = useState[[]]
+        if (postHeadingRef.current.value.trim().length != 0 && postDetailsRef.current.value.trim().length != 0) {
 
-        try {
-            console.log(postHeadingRef.current.value)
-            console.log(postDetailsRef.current.value)
+            try {
+                console.log(postHeadingRef.current.value)
+                console.log(postDetailsRef.current.value)
 
-            // setposts([posts,])
+                // setposts([posts,])
 
-            const Post = {
-                PostTitle: postHeadingRef.current.value,
-                Desc: postDetailsRef.current.value
+                const Post = {
+                    PostTitle: postHeadingRef.current.value,
+                    Desc: postDetailsRef.current.value
+                }
+
+                createPost(Post)
+
+
+                postHeadingRef.current.value = ''
+                postDetailsRef.current.value = ''
+
+                setIsMessage('Post Successfully Created :)')
+
+                createopenModal()
+
+            } catch (error) {
+                // handle error
+                console.log(error);
+
             }
 
-           createPost(Post)
+        } else {
 
-            
-            postHeadingRef.current.value = ''
-            postDetailsRef.current.value = ''
-        } catch (error) {
-            // handle error
-            console.log(error);
+            setIsMessage('Both the input fields must not be empty.')
+
+            createopenModal()
 
         }
+
+        // const [posts, setposts] = useState[[]]
 
     };
 
