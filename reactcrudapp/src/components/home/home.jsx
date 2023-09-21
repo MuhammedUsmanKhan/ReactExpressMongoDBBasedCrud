@@ -3,17 +3,21 @@ import Modal from '../modal/modal'
 import axios from 'axios'
 import Createcard from '../createcard/card'
 import Postcard from '../postcard/postcard'
+import Search from "../searchpost/searchpost";
 
 const Home = () => {
 
     const [posts, setPosts] = useState([]);
     const [postid, setIspostid] = useState(null);
+    const [isSearchdetails, setiIsSearchdetails] = useState(null)
     const [isDelete, setIsDelete] = useState(false);
     const [isCreate, setIsCreate] = useState(false);
     const [isUpdate, setIsUpdate] = useState(false);
     const [Message, setIsMessage] = useState(null);
+    const [isRelevantPosts,SetRelevantPosts] = useState(null);
     const edittedpostHeadingRef = useRef(null);
     const edittedpostDetailsRef = useRef(null);
+    const searchInputRef = useRef(null);
 
     const deleteopenModal = () => {
         setIsDelete(true);
@@ -103,31 +107,28 @@ const Home = () => {
         }
         else {
 
-            setIsMessage('Both the input fields must not be empty.') 
+            setIsMessage('Both the input fields must not be empty.')
 
             createopenModal()
-            
+
         }
 
 
     }
 
-
-
-    const verifydelPost = (e) => {
-        console.log(e.target.dataset.postid)
-        const postID = e.target.dataset.postid
+    const verifydelPost = (eachpostID) => {
+        console.log(eachpostID)
+        const postID = eachpostID
         setIspostid(postID)
         deleteopenModal();
     }
 
-    const inpeditPost = (e) => {
-        // console.log(e.target.dataset.postid)
-        const postID = e.target.dataset.postid
+    const inpeditPost = (eachpostID) => {
+        console.log(eachpostID)
+        const postID = eachpostID
         setIspostid(postID)
         updateopenModal();
     }
-
 
     useEffect(() => {
 
@@ -156,6 +157,22 @@ const Home = () => {
         }
     };
 
+    const searchHandler = async (e) => {
+        e.preventDefault();
+        try { 
+            console.log(searchInputRef.current.value)
+            // setIsLoading(true);
+            setiIsSearchdetails(true)
+            const response = await axios.get(`/api/v1/search?q=${searchInputRef.current.value}`);
+            console.log(response.data);
+
+            // setIsLoading(false);
+            SetRelevantPosts([...response.data]);
+        } catch (error) {
+            console.log(error);
+            // setIsLoading(false);
+        }
+    };
 
     return (
         <div className=''>
@@ -166,13 +183,22 @@ const Home = () => {
                 <div className='flex justify-center '>
                     <Createcard createPost={addNewPost} createopenModal={createopenModal} setIsMessage={setIsMessage} />
                 </div>
+                <div className="flex relative justify-center p-4">
+                    <input type="search" ref={searchInputRef} className="w-full p-2" name="" id="" />
+                    <button onClick={searchHandler}  className="absolute right-8 top-5 p-1">Search</button>
+                </div>
                 <div className='grid sm:grid-col-1 md:grid-cols-3 '>
-                    {posts.toReversed().map((eachpost, index) => {
+                    {posts?.toReversed().map((eachpost, index) => {
                         return <Postcard key={index} postDetails={eachpost} inpeditPost={inpeditPost} verifydelPost={verifydelPost} />;
                     })}
                 </div>
             </div>
             <Modal isDelete={isDelete} postid={postid} Message={Message} edittedpostHeadingRef={edittedpostHeadingRef} edittedpostDetailsRef={edittedpostDetailsRef} isUpdate={isUpdate} isCreate={isCreate} deletePost={deletePost} editPost={editPost} deletecloseModal={deletecloseModal} updatecloseModal={updatecloseModal} createcloseModal={createcloseModal}  > </Modal>
+            <Search isSearchdetails={isSearchdetails} setiIsSearchdetails={setiIsSearchdetails} >
+                {isRelevantPosts?.map((eachpost, index) => {
+                    return <Postcard key={index} postDetails={eachpost} inpeditPost={inpeditPost} verifydelPost={verifydelPost} />;
+                })}
+            </Search>
             {/* <Modal isCreate={isCreate} >
                 <h1 className="text-2xl mb-4">Are you sure to Delete</h1>
             </Modal> */}
